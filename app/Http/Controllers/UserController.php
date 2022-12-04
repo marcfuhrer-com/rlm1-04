@@ -55,7 +55,15 @@ class UserController extends Controller
             'token' => $token
         ];
 
-        return response($response, 201);
+        return response($response, 201)
+            ->withHeaders([
+                'Cache-Control' => 'no-store',
+                'Content-Security-Policy' => 'frame-ancestors \'none\'',
+                'Content-Type' => 'application/json',
+                'Strict-Transport-Security' => 'max-age=31536000',
+                'X-Content-Type-Options' => 'nosniff',
+                'X-Frame-Options' => 'DENY'
+            ]);
     }
 
     public function logout(Request $request)
