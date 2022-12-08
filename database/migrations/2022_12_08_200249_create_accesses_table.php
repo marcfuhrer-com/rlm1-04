@@ -19,11 +19,11 @@ class CreateAccessesTable extends Migration
             $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
             $table->unsignedBigInteger('publisher_data_id')->unsigned()->index();
             $table->foreign('publisher_data_id')->references('id')->on('publisher_data')->onDelete('cascade');
-            $table->string('creates');
-            $table->string('reads');
-            $table->string('updates');
-            $table->string('deletes');
-            $table->string('subscribes');
+            $table->boolean('creates');
+            $table->boolean('reads');
+            $table->boolean('updates');
+            $table->boolean('deletes');
+            $table->boolean('subscribes');
         });
     }
 
