@@ -18,6 +18,7 @@ class CreateFloorTable extends Migration
             $table->string('name');
             $table->unsignedBigInteger('building_id')->unsigned()->index();
             $table->foreign('building_id')->references('id')->on('building')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

@@ -24,6 +24,7 @@ class CreateAccessesTable extends Migration
             $table->boolean('updates');
             $table->boolean('deletes');
             $table->boolean('subscribes');
+            $table->timestamps();
         });
     }
 

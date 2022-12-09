@@ -2,8 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Building;
+use App\Models\Floor;
 use App\Models\PublisherData;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class PublisherDataFactory extends Factory
 {
@@ -22,7 +25,11 @@ class PublisherDataFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->unique()->name(),
+            'building_id' => Building::factory(),
+            'floor_id' => Floor::factory(),
+            'view' => json_encode(["key" => $this->faker->randomNumber(5)] ),
+            'ip_range' => Str::random(15),
         ];
     }
 }

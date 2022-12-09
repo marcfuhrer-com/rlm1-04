@@ -3,7 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Log;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class LogFactory extends Factory
 {
@@ -22,7 +24,10 @@ class LogFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'log_level' => Str::random(10),
+            'log_component' => Str::random(10),
+            'log_message' => Str::random(10),
+            'user_id' => User::factory(),
         ];
     }
 }

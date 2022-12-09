@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Accesses;
+use App\Models\PublisherData;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AccessesFactory extends Factory
@@ -22,7 +24,13 @@ class AccessesFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'publisher_data_name' => PublisherData::factory(),
+            'creates' => $this->faker->boolean,
+            'reads' => $this->faker->boolean,
+            'updates' => $this->faker->boolean,
+            'deletes' => $this->faker->boolean,
+            'subscribes' => $this->faker->boolean,
         ];
     }
 }

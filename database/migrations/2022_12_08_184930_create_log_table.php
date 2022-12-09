@@ -15,7 +15,7 @@ class CreateLogTable extends Migration
     {
         Schema::create('log', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('timestamp');
+            $table->timestamps();
             $table->string('log_level');
             $table->string('log_component');
             $table->string('log_message');

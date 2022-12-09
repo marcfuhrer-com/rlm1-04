@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Building;
 use App\Models\Floor;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class FloorFactory extends Factory
 {
@@ -22,7 +24,8 @@ class FloorFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'building_id' => Building::factory(),
         ];
     }
 }
