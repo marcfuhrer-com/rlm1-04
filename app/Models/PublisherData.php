@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class PublisherData extends Model
 {
     use HasFactory;
+    protected $table = "publisher_data";
+    protected $primaryKey = "name";
+    protected $keyType = 'string';
+    public $incrementing = false;
 }

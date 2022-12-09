@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Floor extends Model
 {
     use HasFactory;
+    protected $table = "floor";
+    protected $primaryKey = "id";
+    public $timestamps = false;
 }

@@ -5,11 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Log extends Model
 {
     use HasFactory;
-    protected $table = "user";
+    protected $table = "log";
     protected $primaryKey = "id";
-
-
 }
