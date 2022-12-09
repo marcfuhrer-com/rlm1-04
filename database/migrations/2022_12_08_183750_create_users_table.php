@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->string('auth_token');
             $table->string('default_duration');
+            $table->unsignedBigInteger('role_id')->unsigned()->index();
+            $table->foreign('role_id')->references('id')->on('role')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +34,11 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::table('user', function (Blueprint $table) {
+            $table->dropForeign('user_role_id_foreign');
+            $table->dropIndex('user_role_id_index');
+            $table->dropColumn('role_id');
+        });
         Schema::dropIfExists('user');
     }
 }

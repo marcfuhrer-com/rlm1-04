@@ -14,7 +14,7 @@ class CreatePublisherDataTable extends Migration
     public function up()
     {
         Schema::create('publisher_data', function (Blueprint $table) {
-            $table->id();
+            $table->string('name')->primary();
             $table->timestamps();
             $table->unsignedBigInteger('building_id')->unsigned()->index();
             $table->foreign('building_id')->references('id')->on('building')->onDelete('cascade');
