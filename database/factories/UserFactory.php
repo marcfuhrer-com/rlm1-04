@@ -30,7 +30,6 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'auth_token' => Str::random(10),
             'default_duration' => 10,
-            'role_id' => Role::factory(),
         ];
     }
 }

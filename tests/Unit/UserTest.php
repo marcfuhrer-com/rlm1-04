@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -17,6 +18,7 @@ class UserTest extends TestCase
         $user = User::factory()->create();
         $this->assertNotNull($user);
         $user->delete();
+        Log::info("test");
         $this->assertDeleted($user);
     }
 }
