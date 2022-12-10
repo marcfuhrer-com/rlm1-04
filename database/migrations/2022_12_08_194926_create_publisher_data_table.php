@@ -17,9 +17,9 @@ class CreatePublisherDataTable extends Migration
             $table->string('name')->primary();
             $table->timestamps();
             $table->unsignedBigInteger('building_id')->unsigned()->index();
-            $table->foreign('building_id')->references('id')->on('building')->onDelete('cascade');
+            $table->foreign('building_id')->references('id')->on('buildings')->onDelete('cascade');
             $table->unsignedBigInteger('floor_id')->unsigned()->index();
-            $table->foreign('floor_id')->references('id')->on('floor')->onDelete('cascade');
+            $table->foreign('floor_id')->references('id')->on('floors')->onDelete('cascade');
             $table->json('view');
             $table->string('ip_range');
         });

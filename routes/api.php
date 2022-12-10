@@ -19,13 +19,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 // public routes
+Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 
 
 // protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/buildings', [BuildingController::class, 'index']);
-    Route::get('/buildings/{id}/floors', [FloorController::class, 'show']);
+    Route::get('/buildings/{id}/floors', [FloorController::class, 'show'])->where('id', '[0-9]+');
     Route::post('/views', [PublisherDataController::class, 'store']);
+    Route::get('/logout', [UserController::class, 'logout']);
 });
 

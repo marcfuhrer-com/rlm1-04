@@ -14,7 +14,7 @@ class UserController extends Controller
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string|confirmed' //regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/
         ]);
 
         $user = User::create([
@@ -33,8 +33,12 @@ class UserController extends Controller
         return response($response, 201);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function login(Request $request)
     {
+        ddd($request);
         $fields = $request->validate([
             'email' => 'required|string',
             'password' => 'required|string'

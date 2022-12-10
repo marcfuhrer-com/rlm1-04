@@ -16,7 +16,7 @@ class CreateAccessesTable extends Migration
         Schema::create('accesses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('publisher_data_name')->index();
             $table->foreign('publisher_data_name')->references('name')->on('publisher_data')->onDelete('cascade');
             $table->boolean('creates');

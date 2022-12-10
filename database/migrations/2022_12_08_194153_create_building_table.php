@@ -13,7 +13,7 @@ class CreateBuildingTable extends Migration
      */
     public function up()
     {
-        Schema::create('building', function (Blueprint $table) {
+        Schema::create('buildings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateBuildingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('building');
+        Schema::dropIfExists('buildings');
     }
 }
