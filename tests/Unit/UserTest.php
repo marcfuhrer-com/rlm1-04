@@ -18,7 +18,6 @@ class UserTest extends TestCase
         $user = User::factory()->create();
         $this->assertNotNull($user);
         $user->delete();
-        Log::info("test");
         $this->assertDeleted($user);
     }
 }
