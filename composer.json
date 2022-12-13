@@ -14,8 +14,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
-        "ext-json": "*"
-        "laravel/tinker": "^2.0",
+        "ext-json": "*",
         "spatie/laravel-backup": "^6.16"
     },
     "require-dev": {
