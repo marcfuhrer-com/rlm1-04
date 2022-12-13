@@ -56,7 +56,7 @@ return [
 
         'daily' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/daily.log'),
+            'path' => storage_path('logs/laravel.log'),
             'days' => 14,
         ],
 
