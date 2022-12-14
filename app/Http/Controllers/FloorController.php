@@ -37,8 +37,8 @@ class FloorController extends Controller
      */
     public function show($id)
     {
-        ddd($id);
-        return Floor::where('building', $id)->get();
+        //ddd($id);
+        return Floor::where('building_id', $id)->get();
     }
 
     /**

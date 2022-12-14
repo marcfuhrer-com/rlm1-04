@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function register(Request $request)
+    /*public function register(Request $request)
     {
         $fields = $request->validate([
             'name' => 'required|string',
@@ -31,20 +32,22 @@ class UserController extends Controller
         ];
 
         return response($response, 201);
-    }
+    }*/
 
     /**
      * @throws \Exception
      */
     public function login(Request $request)
     {
-        ddd($request);
+        //ddd($request);
         $fields = $request->validate([
             'email' => 'required|string',
             'password' => 'required|string'
         ]);
 
-        $user = User::where('email', $fields['email']);
+        $user = User::where('email', $fields['email'])->first();
+
+        //$hashedPassword = User::where('email', $email)->value('password');
 
         if (!$user || !Hash::check($fields['password'], $user->password)) { // Todo: oder user hat nicht rolle publisher/admin
             return response([
@@ -72,7 +75,8 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        auth()->user()->tokens->delete();
+        $user = Auth::user();
+        $user->tokens()->delete();
 
         return response([
             'message' => 'you successfully logged out'

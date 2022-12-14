@@ -5,8 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Model
+
+class User extends Authenticatable
 {
     use HasFactory, HasApiTokens;
     protected $table = "users";
@@ -39,4 +42,5 @@ class User extends Model
      * @var array
      */
     protected $casts = [];
+
 }
