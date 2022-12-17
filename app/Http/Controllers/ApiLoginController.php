@@ -39,7 +39,7 @@ class ApiLoginController extends Controller
         $token = $user->createToken('token')->plainTextToken;
 
         $response = [
-            'userEmail' => $user->email,
+            'email' => $user->email,
             'token' => $token
         ];
 

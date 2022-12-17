@@ -66,11 +66,16 @@ class PublisherDataController extends Controller
         $publisher_data_id = PublisherData::where('name', $fields['name'])
             ->oldest('created_at')
             ->value('id');
-        $updates = Accesses::where('user_id', $user_id)
-            ->where('publisher_data_id', $publisher_data_id)->first()
-            ->value('updates');
+        $accesses = Accesses::where('user_id', $user_id)
+            ->where('publisher_data_id', $publisher_data_id)->first();
 
-        if ($updates == 0) {
+        $updates = 0;
+        if ($accesses) {
+            $json = json_decode($accesses, true);
+            $updates = data_get($json, 'updates');
+        }
+
+        if (!$updates) {
             $response = [
                 'message' => "You're not authorized to update this view",
             ];
