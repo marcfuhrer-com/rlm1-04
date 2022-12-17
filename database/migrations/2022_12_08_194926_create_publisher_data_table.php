@@ -14,14 +14,15 @@ class CreatePublisherDataTable extends Migration
     public function up()
     {
         Schema::create('publisher_data', function (Blueprint $table) {
-            $table->string('name')->primary();
+            $table->id();
+            $table->string('name');
             $table->timestamps();
             $table->unsignedBigInteger('building_id')->unsigned()->index();
             $table->foreign('building_id')->references('id')->on('buildings')->onDelete('cascade');
             $table->unsignedBigInteger('floor_id')->unsigned()->index();
             $table->foreign('floor_id')->references('id')->on('floors')->onDelete('cascade');
             $table->json('view');
-            $table->string('ip_range');
+            $table->string('ip_range')->default('*');
         });
     }
 

@@ -29,6 +29,14 @@ class PublisherDataController extends Controller
      */
     public function store(Request $request)
     {
+        /*$contentType = request()->header('Content-Type');
+
+        if ($contentType !== 'application/json') {
+            $response = ['message' => 'Unsupported Media Type'
+            ];
+            return response($response, 415);
+        }*/
+
         $fields = $request->validate([
             'name' => 'required',
             'building_id' => 'required',
@@ -43,7 +51,6 @@ class PublisherDataController extends Controller
             $response = [
                 'message' => "building_id not found"
             ];
-
             return response($response, 404);
         }
 
@@ -51,23 +58,24 @@ class PublisherDataController extends Controller
             $response = [
                 'message' => "floor_id not found"
             ];
-
             return response($response, 404);
         }
 
-        //$user = Auth::user();
-        /*$updates = Accesses::where('user_id', $user->id)
-            ->where('publisher_data_name', $fields['name'])->first()
-            ->get(['updates']);*/
+        $user = Auth::user();
+        $user_id = $user->id;
+        $publisher_data_id = PublisherData::where('name', $fields['name'])
+            ->oldest('created_at')
+            ->value('id');
+        $updates = Accesses::where('user_id', $user_id)
+            ->where('publisher_data_id', $publisher_data_id)->first()
+            ->value('updates');
 
-        /*if (!$updates) {
+        if ($updates == 0) {
             $response = [
-                'message' => "You're not authorized to update this view"
+                'message' => "You're not authorized to update this view",
             ];
-
             return response($response, 403);
-        }*/
-        //return response($updates, 403);
+        }
 
         return PublisherData::create($request->all());
     }

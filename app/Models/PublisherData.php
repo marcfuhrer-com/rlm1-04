@@ -9,7 +9,7 @@ class PublisherData extends Model
 {
     use HasFactory;
     protected $table = "publisher_data";
-    protected $primaryKey = "name";
+    protected $primaryKey = "id";
     protected $keyType = 'string';
     public $incrementing = false;
 

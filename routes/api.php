@@ -3,7 +3,7 @@
 use App\Http\Controllers\PublisherDataController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\FloorController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\ApiLoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,16 +18,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// public routes
-//Route::post('/register', [UserController::class, 'register']);
-Route::post('/login', [UserController::class, 'login']);
+
+Route::group(['middleware' => ['headers', 'throttle:60,1']], function () {
+    // public routes
+    Route::post('/login', [ApiLoginController::class, 'login']);
 
 
-// protected routes
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/buildings', [BuildingController::class, 'index']);
-    Route::get('/buildings/{id}/floors', [FloorController::class, 'show'])->where('id', '[0-9]+');
-    Route::post('/views', [PublisherDataController::class, 'store']);
-    Route::get('/logout', [UserController::class, 'logout']);
+    // protected routes
+    Route::group(['middleware' => ['auth:sanctum']], function () {
+        Route::get('/buildings', [BuildingController::class, 'index']);
+        Route::get('/buildings/{id}/floors', [FloorController::class, 'show'])->where('id', '[0-9]+');
+        Route::post('/views', [PublisherDataController::class, 'store']);
+        Route::get('/logout', [ApiLoginController::class, 'logout']);
+    });
 });
 
