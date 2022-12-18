@@ -15,14 +15,6 @@ class ApiLoginController extends Controller
      */
     public function login(Request $request)
     {
-        /*$contentType = request()->header('Content-Type');
-
-        if ($contentType !== 'application/json') {
-            $response = ['message' => 'Unsupported Media Type'
-            ];
-            return response($response, 415);
-        }*/
-
         $fields = $request->validate([
             'email' => 'required|string',
             'password' => 'required|string'

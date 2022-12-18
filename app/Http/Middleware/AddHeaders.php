@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class AddHeaderMiddleware
+class AddHeaders
 {
     /**
      * Handle an incoming request.
@@ -25,6 +25,6 @@ class AddHeaderMiddleware
             'Strict-Transport-Security' => 'max-age=31536000',
             'X-Content-Type-Options' => 'nosniff',
             'X-Frame-Options' => 'DENY'
-        ]);;
+        ]);
     }
 }

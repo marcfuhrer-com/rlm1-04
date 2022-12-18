@@ -19,17 +19,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['middleware' => ['headers', 'throttle:60,1']], function () {
+Route::group(['middleware' => ['accept-header', 'headers', 'throttle:60,1']], function () {
     // public routes
-    Route::post('/login', [ApiLoginController::class, 'login']);
+    Route::post('/login', [ApiLoginController::class, 'login'])->middleware('content-header');
 
 
     // protected routes
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/buildings', [BuildingController::class, 'index']);
         Route::get('/buildings/{id}/floors', [FloorController::class, 'show'])->where('id', '[0-9]+');
-        Route::post('/views', [PublisherDataController::class, 'store']);
-        Route::get('/logout', [ApiLoginController::class, 'logout']);
+        Route::post('/views', [PublisherDataController::class, 'store'])->middleware('content-header');
+        //Route::get('/logout', [ApiLoginController::class, 'logout']);
     });
 });
 

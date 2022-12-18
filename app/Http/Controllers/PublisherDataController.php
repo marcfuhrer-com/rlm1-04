@@ -29,14 +29,6 @@ class PublisherDataController extends Controller
      */
     public function store(Request $request)
     {
-        /*$contentType = request()->header('Content-Type');
-
-        if ($contentType !== 'application/json') {
-            $response = ['message' => 'Unsupported Media Type'
-            ];
-            return response($response, 415);
-        }*/
-
         $fields = $request->validate([
             'name' => 'required',
             'building_id' => 'required',
