@@ -6,11 +6,15 @@ use App\Models\Accesses;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\PublisherData;
+use HTMLPurifier;
+use HTMLPurifier_Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class PublisherDataController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -33,7 +37,7 @@ class PublisherDataController extends Controller
             'name' => 'required',
             'building_id' => 'required',
             'floor_id' => 'required',
-            'view' => 'required|json'
+            'view' => 'required'
         ]);
 
         $building = Building::where('id', $fields['building_id'])->first();
@@ -74,7 +78,34 @@ class PublisherDataController extends Controller
             return response($response, 403);
         }
 
-        return PublisherData::create($request->all());
+        $raw = json_decode($fields['view'], true);
+        $html = data_get($raw, 'html');
+
+        // Create a new HTML Purifier instance
+        $config = HTMLPurifier_Config::createDefault();
+
+        // Disallow the script tag and attributes that execute JavaScript code
+        $config->set('HTML.Allowed', 'p,b');
+        $config->set('HTML.ForbiddenElements', 'script');
+        $config->set('Attr.AllowedFrameTargets', null);
+        $config->set('Attr.On*', null);
+        $config->set('CSS.AllowTricky', false);
+        $config->set('URI.SafeIframeRegexp', '%^(?:https?:)?//(?:localhost|(?:(?:[a-zA-Z0-9.-]+\.)?example\.com))%');
+
+        $purifier = new HTMLPurifier($config);
+
+        // Sanitize the HTML input
+        $sanitizedHtml = $purifier->purify($html);
+
+        $json = json_encode(['html' => $sanitizedHtml]);
+        $data = [
+            'name' => $fields['name'],
+            'building_id' => $fields['building_id'],
+            'floor_id' => $fields['floor_id'],
+            'view' => $json
+        ];
+
+        return PublisherData::create($data);
     }
 
     /**

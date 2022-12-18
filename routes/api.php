@@ -19,13 +19,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['middleware' => ['accept-header', 'headers', 'throttle:60,1']], function () {
+Route::group(['middleware' => ['accept-header', 'headers']], function () {
     // public routes
-    Route::post('/login', [ApiLoginController::class, 'login'])->middleware('content-header');
+    Route::post('/login', [ApiLoginController::class, 'login'])->middleware(['content-header', 'throttle:6,10']);
 
 
     // protected routes
-    Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => ['auth:sanctum', 'throttle:60,1']], function () {
         Route::get('/buildings', [BuildingController::class, 'index']);
         Route::get('/buildings/{id}/floors', [FloorController::class, 'show'])->where('id', '[0-9]+');
         Route::post('/views', [PublisherDataController::class, 'store'])->middleware('content-header');

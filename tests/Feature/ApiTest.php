@@ -341,4 +341,30 @@ class ApiTest extends TestCase
             ->assertStatus(201);
     }
 
+
+    /**
+     * Test throttling.
+     *
+     * @return void
+     */
+    public function test_throttling()
+    {
+        Sanctum::actingAs(
+            User::factory()->create(),
+            ['*']
+        );
+
+        for ($i = 0; $i < 7; $i++) {
+            $response = $this->withHeaders(['Accept' => 'application/json'])
+                ->post('/api/login');
+        }
+        $response->assertStatus(429);
+
+        for ($i = 0; $i < 61; $i++) {
+            $response = $this->withHeaders(['Accept' => 'application/json'])
+                ->get('/api/buildings');
+        }
+        $response->assertStatus(429);
+
+    }
 }
