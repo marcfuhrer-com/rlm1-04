@@ -11,6 +11,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 use Tests\TestCase;
 use Database\Factories\UserFactory;
 use Laravel\Sanctum\Sanctum;
+use Illuminate\Foundation\Testing;
 
 class ApiTest extends TestCase
 {
@@ -128,7 +129,7 @@ class ApiTest extends TestCase
                 'name' => 'rolex-mensa',
                 'building_id' => '1',
                 'floor_id' => '1',
-                'view' => "{\"html\": \"html\"}"
+                'view' => "blabla"
             ])
             ->assertStatus(404);
 
@@ -141,7 +142,7 @@ class ApiTest extends TestCase
                 'name' => 'rolex-mensa',
                 'building_id' => '1',
                 'floor_id' => '1',
-                'view' => "{\"html\": \"html\"}"
+                'view' => "blabla"
             ])
             ->assertStatus(404);
 
@@ -275,7 +276,7 @@ class ApiTest extends TestCase
                 'name' => 'rolex-mensa',
                 'building_id' => '1',
                 'floor_idd' => '1',
-                'vieww' => "{\"html\": \"html\"}"
+                'vieww' => "blabla"
             ])
             ->assertStatus(422);
     }
@@ -309,7 +310,7 @@ class ApiTest extends TestCase
                 'name' => 'rolex-mensa',
                 'building_id' => '1',
                 'floor_id' => '1',
-                'view' => "{\"html\": \"html\"}"
+                'view' => "blabla"
             ])
             ->assertStatus(403);
 
@@ -336,7 +337,7 @@ class ApiTest extends TestCase
                 'name' => 'rolex-mensa',
                 'building_id' => '1',
                 'floor_id' => '1',
-                'view' => "{\"html\": \"html\"}"
+                'view' => "blabla"
             ])
             ->assertStatus(201);
     }
@@ -365,6 +366,83 @@ class ApiTest extends TestCase
                 ->get('/api/buildings');
         }
         $response->assertStatus(429);
+
+    }
+
+
+    /**
+     * Test sanitizer.
+     *
+     * @return void
+     */
+    public function test_sanitizer()
+    {
+        $user = Sanctum::actingAs(
+            User::factory()->create(),
+            ['*']
+        );
+
+        DB::table('buildings')->insert([
+            'id' => 1,
+            'name' => 'SIPBB'
+        ]);
+
+        DB::table('floors')->insert([
+            'id' => 1,
+            'name' => 'S250',
+            'building_id' => 1
+        ]);
+
+        DB::table('publisher_data')->insert([
+            'id' => 1,
+            'name' => 'rolex-mensa',
+            'building_id' => 1,
+            'floor_id' => 1
+        ]);
+
+        DB::table('accesses')->insert([
+            'id' => 1,
+            'user_id' => $user->id,
+            'publisher_data_id' => 1,
+            'creates' => 0,
+            'reads' => 0,
+            'updates' => 1,
+            'deletes' => 0,
+            'subscribes' => 0
+        ]);
+
+        $html = '<p>This is some <strong>HTML</strong> content.</p><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==\" alt=\"Italian Trulli\"><img src="https://example.com/image.jpg" alt="Example Image"><script>alert("Hello, world!");</script>';
+
+        $this->withHeaders(['Accept' => 'application/json', 'Content-Type' => 'application/json'])
+            ->json('POST', '/api/views', [
+                'name' => 'rolex-mensa',
+                'building_id' => '1',
+                'floor_id' => '1',
+                'view' => $html
+            ])
+            ->assertStatus(201);
+
+        /*$entry = DB::table('publisher_data')->get('view')
+            ->where(max(['id']));*/
+
+        $highestid = DB::table('publisher_data')->max('id');
+        $entry = DB::table('publisher_data')->where('id', $highestid)->first();
+
+        $json = $entry->view;
+        $gethtml = data_get(json_decode($json, true), 'html');
+
+        $flag = false;
+
+        if (strpos($gethtml, 'data:image/png;base64') === false) {
+            $flag = true;
+        }
+
+        if (strpos($gethtml, 'alert') === true) {
+            $flag = true;
+        }
+
+        $this->assertFalse($flag);
+
 
     }
 }

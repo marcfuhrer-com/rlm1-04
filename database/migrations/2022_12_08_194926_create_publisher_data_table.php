@@ -21,7 +21,7 @@ class CreatePublisherDataTable extends Migration
             $table->foreign('building_id')->references('id')->on('buildings')->onDelete('cascade');
             $table->unsignedBigInteger('floor_id')->unsigned()->index();
             $table->foreign('floor_id')->references('id')->on('floors')->onDelete('cascade');
-            $table->string('view')->default('');
+            $table->json('view')->default('{"html":""}');
             $table->string('ip_range')->default('*');
         });
     }

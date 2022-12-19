@@ -6,6 +6,7 @@ use App\Models\Accesses;
 use App\Models\Building;
 use App\Models\Floor;
 use App\Models\PublisherData;
+use DOMDocument;
 use HTMLPurifier;
 use HTMLPurifier_Config;
 use Illuminate\Http\Request;
@@ -14,16 +15,6 @@ use Illuminate\Support\Facades\Auth;
 
 class PublisherDataController extends Controller
 {
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -78,24 +69,7 @@ class PublisherDataController extends Controller
             return response($response, 403);
         }
 
-        $raw = json_decode($fields['view'], true);
-        $html = data_get($raw, 'html');
-
-        // Create a new HTML Purifier instance
-        $config = HTMLPurifier_Config::createDefault();
-
-        // Disallow the script tag and attributes that execute JavaScript code
-        $config->set('HTML.Allowed', 'p,b');
-        $config->set('HTML.ForbiddenElements', 'script');
-        $config->set('Attr.AllowedFrameTargets', null);
-        $config->set('Attr.On*', null);
-        $config->set('CSS.AllowTricky', false);
-        $config->set('URI.SafeIframeRegexp', '%^(?:https?:)?//(?:localhost|(?:(?:[a-zA-Z0-9.-]+\.)?example\.com))%');
-
-        $purifier = new HTMLPurifier($config);
-
-        // Sanitize the HTML input
-        $sanitizedHtml = $purifier->purify($html);
+        $sanitizedHtml = $this->sanitize($fields['view']);
 
         $json = json_encode(['html' => $sanitizedHtml]);
         $data = [
@@ -108,37 +82,55 @@ class PublisherDataController extends Controller
         return PublisherData::create($data);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function sanitize(String $html): string
     {
-        //
+
+        // Create a new HTML Purifier instance
+        $config = HTMLPurifier_Config::createDefault();
+
+        // Disallow the script tag and attributes that execute JavaScript code
+        //$config->set('HTML.Allowed', 'p,b,h1, img');
+        //$config->set('HTML.ForbiddenElements', 'script');
+        //$config->set('HTML.AllowedElements', 'img, p');
+        //$config->set('URI.Disable', true);
+        //$config->set('HTML.AllowedAttributes', 'img.src,img.alt,img.title');
+        $config->set('URI.AllowedSchemes', array (
+            'http' => true,
+            'https' => true,
+            'mailto' => true,
+            'ftp' => true,
+            'nntp' => true,
+            'news' => true,
+            'tel' => true,
+            'data' => true
+        ));
+        //$config->set('URI.DisableExternal', true);
+        //$config->set('HTML.AllowedElements', 'img');
+        //$config->set('URI.DisableResources', true);
+        //$config->set('URI.OverrideAllowedSchemes', true);
+        //$config->set('Attr.AllowedFrameTargets', null);
+        //$config->set('Attr.On*', null);
+        //$config->set('CSS.AllowTricky', false);
+        //$config->set('URI.SafeIframeRegexp', '%^(?:https?:)?//(?:localhost|(?:(?:[a-zA-Z0-9.-]+\.)?example\.com))%');
+
+        $purifier = new HTMLPurifier($config);
+        $sanitizedHtml = $purifier->purify($html);
+
+        // get rid of the external images
+        $dom = new DOMDocument();
+        $dom->loadHTML($sanitizedHtml);
+        $imgTags = $dom->getElementsByTagName('img');
+        foreach ($imgTags as $imgTag) {
+            $src = $imgTag->getAttribute('src');
+            if (strpos($src, 'data:image/png;base64') === false) {
+                $imgTag->parentNode->removeChild($imgTag);
+            }
+        }
+
+        // sanitize again just for niceness
+        $sanitizedHtml = $purifier->purify($dom->saveHTML());
+
+        return $sanitizedHtml;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
