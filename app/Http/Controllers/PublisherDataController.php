@@ -89,11 +89,11 @@ class PublisherDataController extends Controller
         $config = HTMLPurifier_Config::createDefault();
 
         // Disallow the script tag and attributes that execute JavaScript code
-        //$config->set('HTML.Allowed', 'p,b,h1, img');
+        $config->set('HTML.Allowed', 'p,b,h1, img');
         //$config->set('HTML.ForbiddenElements', 'script');
         //$config->set('HTML.AllowedElements', 'img, p');
         //$config->set('URI.Disable', true);
-        //$config->set('HTML.AllowedAttributes', 'img.src,img.alt,img.title');
+        $config->set('HTML.AllowedAttributes', 'img.src,img.alt,img.title');
         $config->set('URI.AllowedSchemes', array (
             'http' => true,
             'https' => true,
@@ -126,6 +126,8 @@ class PublisherDataController extends Controller
                 $imgTag->parentNode->removeChild($imgTag);
             }
         }
+
+        //$sanitizedHtml = $dom->saveHTML();
 
         // sanitize again just for niceness
         $sanitizedHtml = $purifier->purify($dom->saveHTML());

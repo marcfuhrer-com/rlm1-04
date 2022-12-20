@@ -411,7 +411,7 @@ class ApiTest extends TestCase
             'subscribes' => 0
         ]);
 
-        $html = '<p>This is some <strong>HTML</strong> content.</p><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==\" alt=\"Italian Trulli\"><img src="https://example.com/image.jpg" alt="Example Image"><script>alert("Hello, world!");</script>';
+        $html = '<p>This is some <strong>HTML</strong> content.</p><img src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Italian Trulli"><img src="https://example.com/image.jpg" alt="Example Image"><script>alert("Hello, world!");</script>';
 
         $this->withHeaders(['Accept' => 'application/json', 'Content-Type' => 'application/json'])
             ->json('POST', '/api/views', [
@@ -421,9 +421,6 @@ class ApiTest extends TestCase
                 'view' => $html
             ])
             ->assertStatus(201);
-
-        /*$entry = DB::table('publisher_data')->get('view')
-            ->where(max(['id']));*/
 
         $highestid = DB::table('publisher_data')->max('id');
         $entry = DB::table('publisher_data')->where('id', $highestid)->first();
@@ -437,12 +434,19 @@ class ApiTest extends TestCase
             $flag = true;
         }
 
+        if (strpos($gethtml, 'https://example.com/image.jpg') === true) {
+            $flag = true;
+        }
+
+        if (strpos($gethtml, 'script') === true) {
+            $flag = true;
+        }
+
         if (strpos($gethtml, 'alert') === true) {
             $flag = true;
         }
 
         $this->assertFalse($flag);
-
 
     }
 }
