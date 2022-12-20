@@ -13,11 +13,11 @@ class CreateFloorTable extends Migration
      */
     public function up()
     {
-        Schema::create('floor', function (Blueprint $table) {
+        Schema::create('floors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('building_id')->unsigned()->index();
-            $table->foreign('building_id')->references('id')->on('building')->onDelete('cascade');
+            $table->foreign('building_id')->references('id')->on('buildings')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,7 +29,7 @@ class CreateFloorTable extends Migration
      */
     public function down()
     {
-        Schema::table('floor', function (Blueprint $table) {
+        Schema::table('floors', function (Blueprint $table) {
             $table->dropForeign('floor_building_id_foreign');
             $table->dropIndex('floor_building_id_index');
             $table->dropColumn('building_id');

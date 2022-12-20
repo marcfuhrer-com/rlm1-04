@@ -2,10 +2,24 @@
 
 namespace App\Http;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
+
+    /**
+     * Define the application's command schedule.
+     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @return void
+     */
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->command('sanctum:prune-expired --hours=24')->daily();
+    }
+
+
     /**
      * The application's global HTTP middleware stack.
      *
@@ -62,5 +76,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'headers' => \App\Http\Middleware\AddHeaders::class,
+        'accept-header' => \App\Http\Middleware\AcceptHeader::class,
+        'content-header' => \App\Http\Middleware\ContentHeader::class
     ];
 }

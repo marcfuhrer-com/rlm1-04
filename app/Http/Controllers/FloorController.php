@@ -31,12 +31,14 @@ class FloorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function show($id)
     {
-        return Floor::where('building', $id)->get();
+        //ddd($id);
+        return Floor::where('building_id', $id)->get();
     }
 
     /**

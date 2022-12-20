@@ -17,9 +17,9 @@ class CreateHasRolesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('role_id')->unsigned()->index();
-            $table->foreign('role_id')->references('id')->on('role')->onDelete('cascade');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
