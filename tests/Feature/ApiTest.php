@@ -355,7 +355,7 @@ class ApiTest extends TestCase
             ['*']
         );
 
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i < 11; $i++) {
             $response = $this->withHeaders(['Accept' => 'application/json'])
                 ->post('/api/login');
         }
