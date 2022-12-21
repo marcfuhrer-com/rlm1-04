@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['accept-header', 'headers']], function () {
     // public routes
-    Route::post('/login', [ApiLoginController::class, 'login'])->middleware(['content-header', 'throttle:6,10']);
+    Route::post('/login', [ApiLoginController::class, 'login'])->middleware(['content-header', 'throttle:10,1']);
 
 
     // protected routes
