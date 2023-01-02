@@ -37,14 +37,4 @@ class ApiLoginController extends Controller
 
         return response($response, 201);
     }
-
-    public function logout()
-    {
-        $user = Auth::user();
-        $user->tokens()->delete();
-
-        return response([
-            'message' => 'you successfully logged out'
-        ], 200);
-    }
 }

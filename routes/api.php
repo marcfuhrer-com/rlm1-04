@@ -21,15 +21,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['accept-header', 'headers']], function () {
     // public routes
-    Route::post('/login', [ApiLoginController::class, 'login'])->middleware(['content-header', 'throttle:10,1']);
+    Route::post('/v1/login', [ApiLoginController::class, 'login'])->middleware(['content-header', 'throttle:10,1']);
 
 
     // protected routes
     Route::group(['middleware' => ['auth:sanctum', 'throttle:60,1']], function () {
-        Route::get('/buildings', [BuildingController::class, 'index']);
-        Route::get('/buildings/{id}/floors', [FloorController::class, 'show'])->where('id', '[0-9]+');
-        Route::post('/views', [PublisherDataController::class, 'store'])->middleware('content-header');
-        //Route::get('/logout', [ApiLoginController::class, 'logout']);
+        Route::get('/v1/buildings', [BuildingController::class, 'index']);
+        Route::get('/v1/buildings/{id}/floors', [FloorController::class, 'show'])->where('id', '[0-9]+');
+        Route::put('/v1/views', [PublisherDataController::class, 'store'])->middleware('content-header');
     });
 });
 

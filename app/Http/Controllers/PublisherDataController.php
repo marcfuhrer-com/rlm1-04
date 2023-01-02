@@ -88,7 +88,7 @@ class PublisherDataController extends Controller
         // Create a new HTML Purifier instance
         $config = HTMLPurifier_Config::createDefault();
 
-        // Disallow the script tag and attributes that execute JavaScript code
+        // several configurations (uncommented by purpose, so it can be activated just in case)
         $config->set('HTML.Allowed', 'p,b,h*,img');
         //$config->set('HTML.ForbiddenElements', 'script');
         //$config->set('HTML.AllowedElements', 'img, p');
@@ -126,8 +126,6 @@ class PublisherDataController extends Controller
                 $imgTag->parentNode->removeChild($imgTag);
             }
         }
-
-        //$sanitizedHtml = $dom->saveHTML();
 
         // sanitize again just for niceness
         $sanitizedHtml = $purifier->purify($dom->saveHTML());
