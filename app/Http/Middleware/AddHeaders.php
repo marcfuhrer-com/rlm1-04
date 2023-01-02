@@ -24,9 +24,7 @@ class AddHeaders
             'Content-Type' => 'application/json',
             'Strict-Transport-Security' => 'max-age=31536000',
             'X-Content-Type-Options' => 'nosniff',
-            'X-Frame-Options' => 'DENY',
-            'Access-Control-Allow-Origin' => 'https://app.swaggerhub.com',
-            'Access-Control-Allow-Credentials' => 'true'
+            'X-Frame-Options' => 'DENY'
         ]);
     }
 }
