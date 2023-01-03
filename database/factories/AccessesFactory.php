@@ -25,7 +25,7 @@ class AccessesFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'publisher_data_name' => PublisherData::factory(),
+            'publisher_data_id' => PublisherData::factory(),
             'creates' => $this->faker->boolean,
             'reads' => $this->faker->boolean,
             'updates' => $this->faker->boolean,
