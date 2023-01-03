@@ -15,8 +15,13 @@ class FloorSeeder extends Seeder
     public function run()
     {
         DB::table('floors')->insert([
-            'name' => 'S250',
+            'name' => 'sipbb-s1',
             'building_id' => 1
+        ]);
+
+        DB::table('floors')->insert([
+            'name' => 'rolex-s1',
+            'building_id' => 2
         ]);
     }
 }

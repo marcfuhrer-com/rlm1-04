@@ -15,7 +15,11 @@ class BuildingSeeder extends Seeder
     public function run()
     {
         DB::table('buildings')->insert([
-            'name' => 'SIPBB'
+            'name' => 'sipbb'
+        ]);
+
+        DB::table('buildings')->insert([
+            'name' => 'rolex'
         ]);
     }
 }
