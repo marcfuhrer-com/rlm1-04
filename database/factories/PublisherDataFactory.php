@@ -25,6 +25,7 @@ class PublisherDataFactory extends Factory
     public function definition()
     {
         return [
+            'id' => $this->faker->unique()->randomNumber(),
             'name' => $this->faker->unique()->name(),
             'building_id' => Building::factory(),
             'floor_id' => Floor::factory(),
