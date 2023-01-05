@@ -14,7 +14,9 @@ class LogToDatabaseHandler extends AbstractProcessingHandler
         $log->log_message = $record['message'];
         $log->log_component = $record['channel'];
         $log->log_level = $record['level_name'];
-        $log->user_id = $record['context']['user'];
+        if(isset($record['context']['user'])) {
+            $log->user_id = $record['context']['user'];
+        }
         $log->save();
     }
 }
