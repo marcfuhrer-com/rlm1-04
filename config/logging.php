@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LogController;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -37,20 +38,25 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['daily', 'db'],
             'ignore_exceptions' => false,
+        ],
+
+        'db' => [
+            'driver' => 'custom',
+            'via' => LogController::class,
         ],
 
         'single' => [
             'driver' => 'single',
-            'path' => storage_path('logs/laravel.log'),
+            'path' => storage_path('logs/laravel_info.log'),
+            'tap' => [App\Logging\LogMessageFormatter::class],
             'level' => 'debug',
         ],
 
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
-            'level' => 'debug',
             'days' => 14,
         ],
 
