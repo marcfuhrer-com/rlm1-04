@@ -133,4 +133,13 @@ class PublisherDataController extends Controller
         return $sanitizedHtml;
     }
 
+
+    public static function getView($name): string
+    {
+        $viewAsJson = PublisherData::where('name', $name)->latest()
+            ->value('view');
+        $viewAsJsonObject = json_decode($viewAsJson);
+        return  $viewAsJsonObject->html;
+    }
+
 }
