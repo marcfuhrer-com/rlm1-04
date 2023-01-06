@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import "https://fonts.googleapis.com/css?family=Nunito";
+@import "https://fonts.cdnfonts.com/css/ff-unit-pro";
 
 /*
  * Bootstrap  v5.2.3 (https://getbootstrap.com/)
@@ -52,7 +52,7 @@
     --bs-black-rgb: 0, 0, 0;
     --bs-body-color-rgb: 33, 37, 41;
     --bs-body-bg-rgb: 248, 250, 252;
-    --bs-font-sans-serif: "Nunito", sans-serif;
+    --bs-font-sans-serif: "ff-unit-pro", sans-serif;
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));
     --bs-body-font-family: var(--bs-font-sans-serif);
