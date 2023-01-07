@@ -4,9 +4,13 @@ namespace Tests\Unit;
 
 use App\Models\HasRole;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class HasRoleTest extends TestCase
 {
+
+    use RefreshDatabase;
+
     /**
      * A basic test example.
      *

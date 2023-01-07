@@ -4,14 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Laravel\Sanctum\PersonalAccessToken;
 use Tests\TestCase;
-use Database\Factories\UserFactory;
 use Laravel\Sanctum\Sanctum;
-use Illuminate\Foundation\Testing;
+
 
 class ApiTest extends TestCase
 {

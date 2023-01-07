@@ -2,11 +2,15 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Accesses;
 use Tests\TestCase;
 
 class AccessesTest extends TestCase
 {
+
+    use RefreshDatabase;
+
     /**
      * A basic test example.
      *

@@ -5,9 +5,13 @@ namespace Tests\Unit;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoggingTest extends TestCase
 {
+
+    use RefreshDatabase;
+
     /**
      * A basic test example.
      *
