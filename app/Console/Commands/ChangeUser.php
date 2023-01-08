@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
-class changeUser extends Command
+class ChangeUser extends Command
 {
     /**
      * The name and signature of the console command.

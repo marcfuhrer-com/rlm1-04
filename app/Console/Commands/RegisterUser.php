@@ -9,7 +9,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\Fluent\Concerns\Has;
 
-class registerUser extends Command
+class RegisterUser extends Command
 {
     /**
      * The name and signature of the console command.

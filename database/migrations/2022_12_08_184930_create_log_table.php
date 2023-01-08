@@ -18,7 +18,7 @@ class CreateLogTable extends Migration
             $table->timestamps();
             $table->string('log_level');
             $table->string('log_component');
-            $table->string('log_message', 2000);
+            $table->text('log_message');
             $table->unsignedBigInteger('user_id')->unsigned()->index()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });

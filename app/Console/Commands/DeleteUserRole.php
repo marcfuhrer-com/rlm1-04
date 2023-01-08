@@ -7,7 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Console\Command;
 
-class deleteUserRole extends Command
+class DeleteUserRole extends Command
 {
     /**
      * The name and signature of the console command.
