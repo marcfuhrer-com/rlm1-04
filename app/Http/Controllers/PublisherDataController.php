@@ -50,6 +50,8 @@ class PublisherDataController extends Controller
 
         $user = Auth::user();
         $user_id = $user->id;
+        Log::notice('API store request for user ' . $user->name);
+
         $publisher_data_id = PublisherData::where('name', $fields['name'])
             ->oldest('created_at')
             ->value('id');
@@ -78,6 +80,8 @@ class PublisherDataController extends Controller
             'floor_id' => $fields['floor_id'],
             'view' => $json
         ];
+
+        Log::notice('New publisher data created for user ' . $user->name);
 
         return PublisherData::create($data);
     }

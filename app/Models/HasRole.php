@@ -28,4 +28,5 @@ class HasRole extends Model
 {
     use HasFactory;
     protected $table = "has_roles";
+    protected $fillable = ['role_id'];
 }

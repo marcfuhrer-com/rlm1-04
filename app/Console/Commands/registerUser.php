@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Models\HasRole;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class registerUser extends Command
 {
@@ -41,13 +44,27 @@ class registerUser extends Command
         $name = $this->ask('What is the users name?');
         $mail = $this->ask('What is the users mail?');
         $password = $this->secret('What is the password?');
-        $role = $this->ask('What is the users role?');
+        $defaultDuration = $this->ask('What is his duration?');
 
-        User::create([
-            'name' => $name,
-            'email' => $mail,
-            'password' => Hash::make($password)
-        ]);
+        $roles = Role::all();
+        foreach ($roles as $role) {
+            $this->info('Id ' . $role->id . ' is role ' . $role->name);
+        }
+
+
+        $userRole = $this->ask('What is the users role?');
+
+        $user = new User();
+        $user->name = $name;
+        $user->email = $mail;
+        $user->password = Hash::make($password);
+        (!is_int($defaultDuration)) ?: $user->default_duration = $defaultDuration;
+        $user->save();
+
+        $roleToCreate = new HasRole();
+        $roleToCreate->role_id = $userRole;
+        $roleToCreate->user_id = $user->id;
+        $roleToCreate->save();
 
         $this->info('User created!');
 

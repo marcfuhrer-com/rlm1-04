@@ -16,6 +16,8 @@ class AcceptHeader
      */
     public function handle(Request $request, Closure $next)
     {
+        Log::notice('API request incoming');
+
         if ($request->header('Accept') !== 'application/json') {
             return response()->json([
                 'error' => 'Invalid Accept header',

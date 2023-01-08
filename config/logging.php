@@ -45,13 +45,14 @@ return [
         'db' => [
             'driver' => 'custom',
             'via' => LogController::class,
+            'level' => 'warn',
         ],
 
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel_info.log'),
             'tap' => [App\Logging\LogMessageFormatter::class],
-            'level' => 'debug',
+            'level' => 'warn',
         ],
 
         'daily' => [
