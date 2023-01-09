@@ -322,7 +322,7 @@ class ApiTest extends TestCase
         DB::table('accesses')->insert([
             'id' => 1,
             'user_id' => $user->id,
-            'publisher_data_id' => 1,
+            'publisher_data_name' => 'rolex-mensa',
             'creates' => 0,
             'reads' => 0,
             'updates' => 1,
@@ -374,7 +374,7 @@ class ApiTest extends TestCase
         DB::table('accesses')->insert([
             'id' => 1,
             'user_id' => $user->id,
-            'publisher_data_id' => 1,
+            'publisher_data_name' => 'rolex-mensa',
             'creates' => 0,
             'reads' => 0,
             'updates' => 1,
@@ -429,7 +429,7 @@ class ApiTest extends TestCase
         DB::table('accesses')->insert([
             'id' => 1,
             'user_id' => $user->id,
-            'publisher_data_id' => 1,
+            'publisher_data_name' => 'rolex-mensa',
             'creates' => 0,
             'reads' => 0,
             'updates' => 1,
@@ -451,8 +451,8 @@ class ApiTest extends TestCase
         $highestid = DB::table('publisher_data')->max('id');
         $entry = DB::table('publisher_data')->where('id', $highestid)->first();
 
-        $json = $entry->view;
-        $gethtml = data_get(json_decode($json, true), 'html');
+        $gethtml = $entry->view;
+        //$gethtml = data_get(json_decode($json, true), 'html');
 
         $flag = false;
 

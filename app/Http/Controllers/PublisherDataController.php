@@ -11,6 +11,7 @@ use HTMLPurifier;
 use HTMLPurifier_Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 
 class PublisherDataController extends Controller
@@ -52,11 +53,11 @@ class PublisherDataController extends Controller
         $user_id = $user->id;
         Log::notice('API store request for user ' . $user->name);
 
-        $publisher_data_id = PublisherData::where('name', $fields['name'])
+        /*$publisher_data_id = PublisherData::where('name', $fields['name'])
             ->oldest('created_at')
-            ->value('id');
+            ->value('id');*/
         $accesses = Accesses::where('user_id', $user_id)
-            ->where('publisher_data_id', $publisher_data_id)->first();
+            ->where('publisher_data_name', $fields['name'])->first();
 
         $updates = 0;
         if ($accesses) {
@@ -73,12 +74,12 @@ class PublisherDataController extends Controller
 
         $sanitizedHtml = $this->sanitize($fields['view']);
 
-        $json = json_encode(['html' => $sanitizedHtml]);
+        //$json = json_encode(['html' => $sanitizedHtml]);
         $data = [
             'name' => $fields['name'],
             'building_id' => $fields['building_id'],
             'floor_id' => $fields['floor_id'],
-            'view' => $json
+            'view' => $sanitizedHtml
         ];
 
         Log::notice('New publisher data created for user ' . $user->name);
@@ -138,12 +139,11 @@ class PublisherDataController extends Controller
     }
 
 
-    public static function getView($name): string
+    public static function getView($name)
     {
-        $viewAsJson = PublisherData::where('name', $name)->latest()
+        $view = PublisherData::where('name', $name)->latest()
             ->value('view');
-        $viewAsJsonObject = json_decode($viewAsJson);
-        return  $viewAsJsonObject->html;
+        return  $view;
     }
 
 }

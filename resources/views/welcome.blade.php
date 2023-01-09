@@ -81,7 +81,7 @@
                 <br>
 
             <h2>Room Management</h2>
-                @if (\App\Http\Controllers\PublisherDataController::getView("room-management") != "")
+                @if (\App\Http\Controllers\PublisherDataController::getView("room-management") != null)
                     {!! \App\Http\Controllers\PublisherDataController::getView("room-management") !!}
                 @else
                     <h3>No Data...</h3>
@@ -90,7 +90,7 @@
                 <br>
 
             <h2>Mensa Rolex</h2>
-                @if (\App\Http\Controllers\PublisherDataController::getView("mensa-rolex") != "")
+                @if (\App\Http\Controllers\PublisherDataController::getView("mensa-rolex") != null)
                     {!! \App\Http\Controllers\PublisherDataController::getView("mensa-rolex") !!}
                 @else
                     <h3>No Data...</h3>
@@ -99,7 +99,7 @@
                 <br>
 
             <h2>Indoor Localization</h2>
-                @if (\App\Http\Controllers\PublisherDataController::getView("indoor-localization") != "")
+                @if (\App\Http\Controllers\PublisherDataController::getView("indoor-localization") != null)
                     {!! \App\Http\Controllers\PublisherDataController::getView("indoor-localization") !!}
                 @else
                     <h3>No Data...</h3>
