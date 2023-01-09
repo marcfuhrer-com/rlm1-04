@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Testing\Fluent\Concerns\Has;
 use PhpParser\Node\Expr\Array_;
 
 
@@ -155,6 +156,30 @@ class PublisherDataController extends Controller
         $user = User::find($userId);
         $hasRolePublisher = HasRole::where('user_id', $userId)
             ->where('role_id', 3)->get();
+        $isAdmin = HasRole::where('user_id', $userId)
+            ->where('role_id', 2)->get();
+
+        if (count($isAdmin) != 0) {
+            $data = [];
+            $i = 0;
+            $pubDataName = 'admin';
+
+            $publishedDataNames = PublisherData::get()->unique('name');
+            foreach ($publishedDataNames as $dataName) {
+                $data[$i]["name"] = $dataName->name;
+                $data[$i]["createdAt"] = PublisherData::where('name', $dataName->name)->latest()->get()[0]->created_at;
+                $data[$i]["updatedAt"]= PublisherData::where('name', $dataName->name)->latest('updated_at')->get()[0]->updated_at;
+                $data[$i]["subscribed"] = Accesses::where('publisher_data_name', $dataName->name)
+                    ->where('subscribes', 1)->get()->count();
+                $i++;
+            }
+
+
+            return view('usage', ['name' => $user->name,
+                'pubDataName' => $pubDataName,
+                'data' => $data,
+                'isAdmin' => true]);
+        }
         if (count($hasRolePublisher) != 0) {
             $pubDataName = DB::table('accesses')
                 ->where('user_id', '=', $userId)
@@ -168,14 +193,16 @@ class PublisherDataController extends Controller
 
             return view('usage', ['name' => $user->name,
                 'pubDataName' => $pubDataName[0]->publisher_data_name,
-                'data' => count($pubData)]);
+                'data' => count($pubData),
+                'isAdmin' => false]);
         } else {
             $pubDataName = "";
             $pubData = array();
 
             return view('usage', ['name' => $user->name,
                 'pubDataName' => $pubDataName,
-                'data' => count($pubData)]);
+                'data' => count($pubData),
+                'isAdmin' => false]);
         }
 
     }

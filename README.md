@@ -53,6 +53,10 @@ As the service admin, you can also access the daily backups. You will find them 
 
 As the service admin, you can easily check all features functionality via simply running all tests (php artisan test)
 
+#### Usage data
+
+To have access to usage information, simply go to https://service.p1-irm.bfh-web-labs.ch/usage
+
 ## Publisher
 
 Uses REST API and gets his documentation here: https://service.p1-irm.bfh-web-labs.ch/api/<version>/...
@@ -67,7 +71,11 @@ To have access to usage information, publishers simply can go to https://service
 
 ## Subscriber
 
---TODO
+Subscribers can access the published data over https://service.p1-irm.bfh-web-labs.ch/.
+
+The static subscriber content is available over https://service.p1-irm.bfh-web-labs.ch/publisher/<id1>.
+Combining is possible like this https://service.p1-irm.bfh-web-labs.ch/publisher/<id1>+<id2>+<id3> with param ?duration=<value>
+for screentime duration till next content will be displayed
 
 ## User
 
