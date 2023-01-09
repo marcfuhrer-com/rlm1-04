@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\RelationNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Queue\MaxAttemptsExceededException;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -32,6 +36,23 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        //
+        $this->reportable(function (QueryException $e) {
+            Log::critical('No DB Connection or similar error'  . $e);
+        });
+        $this->reportable(function (QueryException $e) {
+            Log::critical('No DB Connection or similar error ' . $e);
+        });
+        $this->reportable(function (RelationNotFoundException $e) {
+            Log::critical('Relation not found error'  . $e);
+        });
+        $this->reportable(function (\HttpRuntimeException $e) {
+            Log::critical('Runtime Exception' . $e);
+        });
+        $this->reportable(function (MaxAttemptsExceededException $e) {
+            Log::critical('Quere max attempts error' . $e);
+        });
+        $this->reportable(function (\PDOException $e) {
+            Log::critical('No DB Connection or similar error' . $e);
+        });
     }
 }

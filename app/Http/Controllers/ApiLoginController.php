@@ -35,6 +35,8 @@ class ApiLoginController extends Controller
             'token' => $token
         ];
 
+        Log::info('API-Login for user ' . $user->name);
+
         return response($response, 201);
     }
 }

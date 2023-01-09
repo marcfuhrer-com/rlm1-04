@@ -38,4 +38,8 @@ class Accesses extends Model
 {
     use HasFactory;
     protected $table = "accesses";
+    public function accesses()
+    {
+        return $this->hasMany(PublisherData::class);
+    }
 }
