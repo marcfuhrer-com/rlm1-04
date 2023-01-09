@@ -28,8 +28,11 @@ Route::get('/slideshow/roomManagement', function () {
 Route::get('/slideshow/mensaRolex', function () {
     return \App\Http\Controllers\PublisherDataController::getView("mensaRolex");
 });
-Route::get('/slideshow/mensaRolex', function () {
+Route::get('/slideshow/indoorLocalization', function () {
     return \App\Http\Controllers\PublisherDataController::getView("mensaRolex");
+});
+Route::get('/usage', function () {
+    return \App\Http\Controllers\PublisherDataController::getUsageView(Auth::user()->id);
 });
 
 

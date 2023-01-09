@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Accesses;
 use App\Models\Building;
 use App\Models\Floor;
+use App\Models\HasRole;
 use App\Models\PublisherData;
+use App\Models\User;
 use DOMDocument;
 use HTMLPurifier;
 use HTMLPurifier_Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Expr\Array_;
 
 
 class PublisherDataController extends Controller
@@ -20,7 +24,7 @@ class PublisherDataController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -87,7 +91,7 @@ class PublisherDataController extends Controller
         return PublisherData::create($data);
     }
 
-    public function sanitize(String $html): string
+    public function sanitize(string $html): string
     {
 
         // Create a new HTML Purifier instance
@@ -99,7 +103,7 @@ class PublisherDataController extends Controller
         //$config->set('HTML.AllowedElements', 'img, p');
         //$config->set('URI.Disable', true);
         $config->set('HTML.AllowedAttributes', 'img.src,img.alt,img.title');
-        $config->set('URI.AllowedSchemes', array (
+        $config->set('URI.AllowedSchemes', array(
             'http' => true,
             'https' => true,
             'mailto' => true,
@@ -143,7 +147,36 @@ class PublisherDataController extends Controller
     {
         $view = PublisherData::where('name', $name)->latest()
             ->value('view');
-        return  $view;
+        return $view;
     }
 
+    public static function getUsageView($userId)
+    {
+        $user = User::find($userId);
+        $hasRolePublisher = HasRole::where('user_id', $userId)
+            ->where('role_id', 3)->get();
+        if (count($hasRolePublisher) != 0) {
+            $pubDataName = DB::table('accesses')
+                ->where('user_id', '=', $userId)
+                ->where(function ($query) {
+                    $query->where('creates', '=', 1)
+                        ->orWhere('updates', '=', 1);
+                })->get();
+
+            $pubData = Accesses::where('publisher_data_name', $pubDataName[0]->publisher_data_name)
+                ->where('subscribes', 1)->get();
+
+            return view('usage', ['name' => $user->name,
+                'pubDataName' => $pubDataName[0]->publisher_data_name,
+                'data' => count($pubData)]);
+        } else {
+            $pubDataName = "";
+            $pubData = array();
+
+            return view('usage', ['name' => $user->name,
+                'pubDataName' => $pubDataName,
+                'data' => count($pubData)]);
+        }
+
+    }
 }

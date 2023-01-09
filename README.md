@@ -63,8 +63,7 @@ The service REST API is openly accessible here: https://api-doc.p1-irm.bfh-web-l
 
 The try-it out function can be found here: https://active-api-doc.p1-irm.bfh-web-labs.ch
 
-To have access to usage information, publishers simply can
---TODO
+To have access to usage information, publishers simply can go to https://service.p1-irm.bfh-web-labs.ch/usage
 
 ## Subscriber
 
