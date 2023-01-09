@@ -1,61 +1,75 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## About Interactive Room Map Display
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+It's a simple REST API based service, which displays views from publishers submitted over the rest api.
+The service is composed of the service, the REST API and the subscriber software.
 
-## About Laravel
+## Roles
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+There exist multiple roles:
+- Service owner: self explanatory
+- Service admin: administrating the service via console via plesk
+- Publisher: submitting publisher data over REST API
+- Subscriber: showing published data via URL
+- User: consumers of published data
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Service Owner
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Not much to talk about - own's it
 
-## Learning Laravel
+## Service Admin
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### Administrating
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Administrates the service via following selfmade commands and other artisan commands coming from laravel itself or any third party plugin.
+- create:acl             Creates an ACL entry for a user
+- create:building        Create a building
+- create:floor           Create a floor for a building
+- create:role            Create a new role
+- create:user            Create a new user
+- delete:acl             Deletes an ACL entry
+- delete:building        Deletes a building
+- delete:floor           Delete an existing floor
+- delete:publisherdata   Deletes publisher_data
+- delete:role            Delete a role
+- delete:user            Delete user
+- delete:userrole        Delete a role of an user
+- update:acl             Update an existing ACL entry
+- update:user            Update an existing user
 
-## Laravel Sponsors
+The commands themselves should be self explanatory at usage.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+#### Logging
 
-### Premium Partners
+As the service admin, you can access the log files either via db access in logs-table, or via 
+/storage/logs/xxx.log where daily logs will be written.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+For easy log-viewing, go on https://service.p1-irm.bfh-web-labs.ch/log-viewer
 
-## Contributing
+#### Backup
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+As the service admin, you can also access the daily backups. You will find them here /storage/app/backup
 
-## Code of Conduct
+#### Tests
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+As the service admin, you can easily check all features functionality via simply running all tests (php artisan test)
 
-## Security Vulnerabilities
+## Publisher
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Uses REST API and gets his documentation here: https://service.p1-irm.bfh-web-labs.ch/api/<version>/...
 
-## License
+Obviously depending on version, like this: https://service.p1-irm.bfh-web-labs.ch/api/v1/...
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The service REST API is openly accessible here: https://api-doc.p1-irm.bfh-web-labs.ch
+
+The try-it out function can be found here: https://active-api-doc.p1-irm.bfh-web-labs.ch
+
+To have access to usage information, publishers simply can
+--TODO
+
+## Subscriber
+
+--TODO
+
+## User
+
+Consume and be happy

@@ -21,7 +21,7 @@ class CreateACLEntry extends Command
      *
      * @var string
      */
-    protected $description = 'Creates an ACL entry for an user';
+    protected $description = 'Creates an ACL entry for a user';
 
     /**
      * Create a new command instance.
