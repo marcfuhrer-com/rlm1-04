@@ -50,7 +50,7 @@ class DeleteUserRole extends Command
         if (!$user) {
             $this->info('No valid user id given');
 
-            return 0;
+            return 1;
         }
 
         $this->info('Current User roles:');
@@ -63,9 +63,9 @@ class DeleteUserRole extends Command
         $roleToDelete = $this->ask('Which role shall be deleted?');
         $role = HasRole::find($roleToDelete);
         if (!$role) {
-            $this->info('No valid role id given');
+            $this->error('No valid role id given');
 
-            return 0;
+            return 1;
         }
         $role->delete();
         $this->info('Role deleted.');

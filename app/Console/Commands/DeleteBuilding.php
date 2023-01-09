@@ -2,24 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
+use App\Models\Building;
 use Illuminate\Console\Command;
 
-class DeleteUser extends Command
+class DeleteBuilding extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'delete:user';
+    protected $signature = 'delete:building';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Delete user';
+    protected $description = 'Deletes a building';
 
     /**
      * Create a new command instance.
@@ -38,22 +38,22 @@ class DeleteUser extends Command
      */
     public function handle()
     {
-        $users = User::all();
-        foreach ($users as $user) {
-            $this->info('Id ' . $user->id . ' is ' . $user->name);
+        $buildings = Building::all();
+        foreach ($buildings as $building) {
+            $this->info('Id ' . $building->id . ' is ' . $building->name);
         }
 
-        $userId = $this->ask('Which user u want to delete?');
-        $user = User::find($userId);
-        if (!$user) {
-            $this->error('No valid user id given');
+        $buildingId = $this->ask('Which building do u want to delete?');
+        $building = Building::find($buildingId);
+        if (!$building) {
+            $this->error('No valid building id given');
 
             return 1;
         }
 
-        $user->delete();
+        $building->delete();
 
-        $this->info('User deleted.');
+        $this->info('Building deleted.');
 
         return 0;
     }

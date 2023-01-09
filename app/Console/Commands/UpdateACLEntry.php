@@ -3,25 +3,24 @@
 namespace App\Console\Commands;
 
 use App\Models\Accesses;
-use App\Models\PublisherData;
 use App\Models\User;
 use Illuminate\Console\Command;
 
-class CreateACLEntry extends Command
+class UpdateACLEntry extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'create:acl';
+    protected $signature = 'update:acl';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Creates an ACL entry for an user';
+    protected $description = 'Update an existing ACL entry';
 
     /**
      * Create a new command instance.
@@ -40,50 +39,23 @@ class CreateACLEntry extends Command
      */
     public function handle()
     {
-        $users = User::all();
-        foreach ($users as $user) {
-            $this->info('Id ' . $user->id . ' is ' . $user->name);
+        $accesses = Accesses::all();
+        foreach ($accesses as $aclEntry) {
+            $user = User::find($aclEntry->user_id);
+            $this->info('Id ' . $aclEntry->id . ' is ' . $aclEntry->publisher_data_name . ' for user ' . $user->name);
         }
 
-        $userId = $this->ask('For which user, do you want do create an access?');
-        $user = User::find($userId);
-        if ($user == null) {
-            $this->error('Wrong user id');
+        $aclId = $this->ask('Which entry do you want to update?');
+        $entry = Accesses::find($aclId);
+        if (!$entry) {
+            $this->error('No valid ACL id given');
 
             return 1;
         }
-
-        $this->info('Available Datasets:');
-        $availablePublisherDataNames = PublisherData::get()->unique('name');
-        foreach ($availablePublisherDataNames as $pubDataName) {
-            $this->info($pubDataName->name);
-        }
-
-        $dataSet = $this->ask('For which dataset should he get rights?');
-
-        $doesSetExist = PublisherData::get()->where('name', $dataSet)->last();
-        if ($doesSetExist == null) {
-            $this->error('Does not exists');
-
-            return 1;
-        }
-
-        $accesses = Accesses::where('user_id', $userId)->where('publisher_data_name', $dataSet)->first();
-
-        if ($accesses != null) {
-            $this->error('ACL entry for user and publisher does already exist. Use update command.');
-
-            return 1;
-        }
-
 
         $operation = $this->choice('Which operations shall he be able to do',
             ['create', 'read', 'update', 'delete', 'subscribe'], null, 2, true);
-
         $newEntry = new Accesses();
-        $newEntry->user_id = $userId;
-        $newEntry->publisher_data_name = $dataSet;
-
         foreach ($operation as $op) {
             ($newEntry->creates != null) ?: ($op == 'create') ? $newEntry->creates = 1 : $newEntry->creates = 0;
             ($newEntry->reads != null) ?: ($op == 'read') ? $newEntry->reads = 1 : $newEntry->reads = 0;
@@ -91,9 +63,14 @@ class CreateACLEntry extends Command
             ($newEntry->deletes != null) ?: ($op == 'delete') ? $newEntry->deletes = 1 : $newEntry->deletes = 0;
             ($newEntry->subscribes != null) ?: ($op == 'subscribe') ? $newEntry->subscribes = 1 : $newEntry->subscribes = 0;
         }
-        $newEntry->save();
+        $entry->creates = $newEntry->creates;
+        $entry->reads = $newEntry->reads;
+        $entry->updates = $newEntry->updates;
+        $entry->deletes = $newEntry->deletes;
+        $entry->subscribes = $newEntry->subscribes;
+        $entry->save();
 
-        $this->info('ACL entry created');
+        $this->info('ACL entry updated');
 
         return 0;
     }

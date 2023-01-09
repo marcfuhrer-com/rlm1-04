@@ -2,24 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
+use App\Models\Role;
 use Illuminate\Console\Command;
 
-class DeleteUser extends Command
+class DeleteRole extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'delete:user';
+    protected $signature = 'delete:role';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Delete user';
+    protected $description = 'Delete a role';
 
     /**
      * Create a new command instance.
@@ -38,22 +38,22 @@ class DeleteUser extends Command
      */
     public function handle()
     {
-        $users = User::all();
-        foreach ($users as $user) {
-            $this->info('Id ' . $user->id . ' is ' . $user->name);
+        $roles = Role::all();
+        foreach ($roles as $role) {
+            $this->info('Id ' . $role->id . ' is ' . $role->name);
         }
 
-        $userId = $this->ask('Which user u want to delete?');
-        $user = User::find($userId);
-        if (!$user) {
-            $this->error('No valid user id given');
+        $roleId = $this->ask('Which role do u want to delete?');
+        $role = Role::find($roleId);
+        if (!$role) {
+            $this->error('No valid role id given');
 
             return 1;
         }
 
-        $user->delete();
+        $role->delete();
 
-        $this->info('User deleted.');
+        $this->info('Role deleted.');
 
         return 0;
     }

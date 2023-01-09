@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Building;
+use App\Models\Floor;
 use Illuminate\Console\Command;
 
 class CreateFloor extends Command
@@ -11,14 +13,14 @@ class CreateFloor extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'create:floor';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Create a floor for a building';
 
     /**
      * Create a new command instance.
@@ -37,6 +39,27 @@ class CreateFloor extends Command
      */
     public function handle()
     {
+        $buildings = Building::all();
+        foreach($buildings as $building) {
+            $this->info('Building id ' . $building->id . ' is ' . $building->name);
+        }
+
+        $buildingId = $this->ask('For which building do you want to create a floor?');
+        $building = Building::find($buildingId);
+        if(!$building) {
+            $this->error('No valid building id given.');
+
+            return 1;
+        }
+
+        $floorName = $this->ask('What is the name of the floor?');
+        $floor = new Floor();
+        $floor->name = $floorName;
+        $floor->building_id = $buildingId;
+        $floor->save();
+
+        $this->info('Floor created');
+
         return 0;
     }
 }

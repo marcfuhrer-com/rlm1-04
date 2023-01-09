@@ -2,24 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Building;
+use App\Models\Role;
 use Illuminate\Console\Command;
 
-class CreateBuilding extends Command
+class CreateRole extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'create:building';
+    protected $signature = 'create:role';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a building';
+    protected $description = 'Create a new role';
 
     /**
      * Create a new command instance.
@@ -38,12 +38,12 @@ class CreateBuilding extends Command
      */
     public function handle()
     {
-        $buildingName = $this->ask('What is the name of the building?');
-        $building = new Building();
-        $building->name = $buildingName;
-        $building->save();
+        $roleName = $this->ask('What is the name of the role?');
+        $role = new Role();
+        $role->name = $roleName;
+        $role->save();
 
-        $this->info('Building created');
+        $this->info('Role created');
 
         return 0;
     }

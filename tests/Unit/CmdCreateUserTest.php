@@ -1,9 +1,10 @@
 <?php
 
+use App\Models\Role;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class CmdRegisterUserTest extends TestCase
+class CmdCreateUserTest extends TestCase
 {
 
     use RefreshDatabase;
@@ -15,13 +16,19 @@ class CmdRegisterUserTest extends TestCase
      */
     public function testBasicTest()
     {
-        $this->artisan('register:user')
+        $role = Role::factory()->count(5)->create();
+
+        $this->artisan('create:user')
             ->expectsQuestion('What is the users name?', 'cmd_testname1')
             ->expectsQuestion('What is the users mail?', 'cmd_mail1')
             ->expectsQuestion('What is the password?', 'cmd_pass1')
             ->expectsQuestion('What is his duration?', 15)
-            ->expectsOutput()
+            //->expectsOutput()
             ->expectsQuestion('What is the users role?', 2)
             ->expectsOutput('User created!');
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'cmd_mail1',
+        ]);
     }
 }

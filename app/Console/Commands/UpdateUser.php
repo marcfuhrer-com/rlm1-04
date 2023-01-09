@@ -8,21 +8,21 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 
-class ChangeUser extends Command
+class UpdateUser extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'change:user';
+    protected $signature = 'update:user';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Change an existing user';
+    protected $description = 'Update an existing user';
 
     /**
      * Create a new command instance.
@@ -43,15 +43,15 @@ class ChangeUser extends Command
     {
         $users = User::all();
         foreach ($users as $user) {
-            $this->info('Id ' . $user->id . ' is role ' . $user->name);
+            $this->info('Id ' . $user->id . ' is user ' . $user->name);
         }
 
         $userId = $this->ask('Which user u want to change?');
         $user = User::find($userId);
         if (!$user) {
-            $this->info('No valid user id given');
+            $this->error('No valid user id given');
 
-            return 0;
+            return 1;
         }
 
         $changeName = $this->ask('You want to change his name? y/n');
@@ -94,31 +94,38 @@ class ChangeUser extends Command
                 $this->info('Id ' . $role->id . ' is role ' . $roleName->name);
             }
 
-            $changeRole = $this->ask('You want to change one of his roles? y/n');
+            $changeRole = $this->ask('You want to change one of his userroles? y/n');
             if ($changeRole == 'y' or $changeRole == 'yes') {
 
                 $whichRole = $this->ask('Which role u want to change? id');
                 $role = HasRole::find($whichRole);
                 if (!$role) {
-                    $this->info('No valid role id given');
+                    $this->error('No valid role id given');
 
-                    return 0;
+                    return 1;
                 }
 
-                $whichRole = $this->ask('Which role should it be? id');
-                if (!$whichRole) {
-                    $this->info('No valid role id given');
+                $whichRoley = $this->ask('Which role should it be? id');
+                $roley = Role::find($whichRoley);
+                if (!$roley) {
+                    $this->error('No valid role id given');
 
-                    return 0;
+                    return 1;
                 }
 
-                $role->role_id = $whichRole;
+                $role->role_id = $whichRoley;
                 $role->save();
             }
 
             $addRole = $this->ask('You want to add a role? y/n');
             if ($addRole == 'y' or $addRole == 'yes') {
                 $newRole = $this->ask('What is the users role?');
+                $roleToAdd = Role::find($newRole);
+                if (!$roleToAdd) {
+                    $this->error('No valid role id given');
+
+                    return 1;
+                }
                 $roleToCreate = new HasRole();
                 $roleToCreate->role_id = $newRole;
                 $roleToCreate->user_id = $userId;

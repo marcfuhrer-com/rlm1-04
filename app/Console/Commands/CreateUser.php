@@ -9,21 +9,21 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\Fluent\Concerns\Has;
 
-class RegisterUser extends Command
+class CreateUser extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'register:user';
+    protected $signature = 'create:user';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Register a new user';
+    protected $description = 'Create a new user';
 
     /**
      * Create a new command instance.
@@ -53,6 +53,12 @@ class RegisterUser extends Command
 
 
         $userRole = $this->ask('What is the users role?');
+        $role = Role::find($userRole);
+        if (!$role) {
+            $this->error('No valid role id given');
+
+            return 1;
+        }
 
         $user = new User();
         $user->name = $name;
