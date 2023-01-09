@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PublisherDataController;
 use App\Http\Controllers\BuildingController;
+use App\Http\Controllers\SlideshowController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\ApiLoginController;
 use Illuminate\Http\Request;

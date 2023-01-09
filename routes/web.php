@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SlideshowController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Route::get('/slideshow/roomManagement', [SlideshowController::class, 'roomManagement']);
+//Route::get('/slideshow/roomManagement', \App\Http\Controllers\PublisherDataController::getView("room-management"));
+//Route::get('/slideshow/mensaRolex', [SlideshowController::class, 'mensaRolex']);
+//Route::get('/slideshow/indoorLocalization', [SlideshowController::class, 'indoorLocalization']);
+Route::get('/slideshow/roomManagement', function () {
+    return \App\Http\Controllers\PublisherDataController::getView("room-management");
+});
+Route::get('/slideshow/mensaRolex', function () {
+    return \App\Http\Controllers\PublisherDataController::getView("mensaRolex");
+});
+Route::get('/slideshow/mensaRolex', function () {
+    return \App\Http\Controllers\PublisherDataController::getView("mensaRolex");
+});
+
 
 Auth::routes();
 

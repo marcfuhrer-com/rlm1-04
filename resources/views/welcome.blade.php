@@ -16,8 +16,15 @@
 
         <style>
             body {
-                font-family: 'ff-unit-pro';
+                font-family: 'ff-unit-pro', serif;
             }
+        </style>
+
+        <!-- Zoom for iFrame -->
+        <style>
+            #wrapSlideShow { width: 600px; height: 390px; padding: 0; overflow: hidden; }
+            #slideShow { width: 800px; height: 520px; border: 1px solid black; }
+            #slideShow { zoom: 0.75; -moz-transform: scale(0.75); -moz-transform-origin: 0 0; }
         </style>
     </head>
     <body class="antialiased">
@@ -38,9 +45,39 @@
             @endif
 
 
-            <h1>Hier werden die aktuellsten Daten angezeigt:</h1>
-                <br>
-                <br>
+
+         <h1>Slideshow aktuellster Daten (automatischer Reload):</h1>
+         <script type="text/javascript">
+             var timer;
+             var frames = Array('/slideshow/roomManagement', '/slideShow/mensaRolex', '/slideShow/indoorLocalization');
+             var frameIndex = 0;
+             function refreshSlideshow(){
+                 if(timer)
+                     clearInterval(timer)
+                 timer = setTimeout(refreshSlideshow,5000)
+                 var iframe = document.getElementById('slideShow');
+                 iframe.src=frames[frameIndex++];
+                 if (frameIndex === frames.length)
+                     frameIndex = 0;
+             }
+
+             refreshSlideshow();
+         </script>
+         <div id="wrapSlideShow">
+             <iframe id="slideShow" src="/slideshow/roomManagement" width="600" height="400">
+             <p>Your browser does not support iframes.</p>
+         </iframe>
+         </div>
+         <br>
+
+
+
+
+
+
+
+
+            <h1>PublisherData zur Kontrolle (statisch bei Aufruf):</h1>
                 <br>
 
             <h2>Room Management</h2>
