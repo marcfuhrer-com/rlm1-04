@@ -28,7 +28,7 @@ class CmdDeleteUserRoleTest extends TestCase
 
         $this->artisan('delete:userrole')
             ->expectsQuestion('For which user u want to delete a role?', $users[0]->id)
-            ->expectsQuestion('Which role shall be deleted?', 11)
+            ->expectsQuestion('Which role shall be deleted?', 111)
             ->expectsOutput('No valid role id given')
             ->assertExitCode(1);
 

@@ -32,7 +32,12 @@ Route::get('/slideshow/indoorLocalization', function () {
     return \App\Http\Controllers\PublisherDataController::getView("mensaRolex");
 });
 Route::get('/usage', function () {
-    return \App\Http\Controllers\PublisherDataController::getUsageView(Auth::user()->id);
+    if(!Auth::user()) {
+        return view('welcome');
+    } else
+    {
+        return \App\Http\Controllers\PublisherDataController::getUsageView(Auth::user()->id);
+    }
 });
 
 

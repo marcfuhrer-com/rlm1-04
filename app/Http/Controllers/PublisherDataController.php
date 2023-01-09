@@ -7,6 +7,7 @@ use App\Models\Building;
 use App\Models\Floor;
 use App\Models\HasRole;
 use App\Models\PublisherData;
+use App\Models\Role;
 use App\Models\User;
 use DOMDocument;
 use HTMLPurifier;
@@ -154,12 +155,15 @@ class PublisherDataController extends Controller
     public static function getUsageView($userId)
     {
         $user = User::find($userId);
-        $hasRolePublisher = HasRole::where('user_id', $userId)
-            ->where('role_id', 3)->get();
-        $isAdmin = HasRole::where('user_id', $userId)
-            ->where('role_id', 2)->get();
+        $role = HasRole::where('user_id', $userId)->get();
+        $roleName = DB::table('has_roles')
+            ->join('roles', 'has_roles.role_id', '=', 'roles.id')
+            ->select('roles.name')
+            ->where('has_roles.role_id', $role[0]->role_id)
+            ->get()
+            ->first();
 
-        if (count($isAdmin) != 0) {
+        if ($roleName->name=="Service Administrator") {
             $data = [];
             $i = 0;
             $pubDataName = 'admin';
@@ -179,8 +183,7 @@ class PublisherDataController extends Controller
                 'pubDataName' => $pubDataName,
                 'data' => $data,
                 'isAdmin' => true]);
-        }
-        if (count($hasRolePublisher) != 0) {
+        } else if ($roleName->name=="Publisher") {
             $pubDataName = DB::table('accesses')
                 ->where('user_id', '=', $userId)
                 ->where(function ($query) {
@@ -188,13 +191,24 @@ class PublisherDataController extends Controller
                         ->orWhere('updates', '=', 1);
                 })->get();
 
-            $pubData = Accesses::where('publisher_data_name', $pubDataName[0]->publisher_data_name)
-                ->where('subscribes', 1)->get();
+            if(count($pubDataName) != 0) {
 
-            return view('usage', ['name' => $user->name,
-                'pubDataName' => $pubDataName[0]->publisher_data_name,
-                'data' => count($pubData),
-                'isAdmin' => false]);
+                $pubData = Accesses::where('publisher_data_name', $pubDataName[0]->publisher_data_name)
+                    ->where('subscribes', 1)->get();
+
+                return view('usage', ['name' => $user->name,
+                    'pubDataName' => $pubDataName[0]->publisher_data_name,
+                    'data' => count($pubData),
+                    'isAdmin' => false]);
+            } else {
+
+                return view('usage', ['name' => $user->name,
+                    'pubDataName' => "-",
+                    'data' => 0,
+                    'isAdmin' => false]);
+            }
+
+
         } else {
             $pubDataName = "";
             $pubData = array();
