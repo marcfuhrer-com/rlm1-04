@@ -138,7 +138,6 @@ class PublisherDataController extends Controller
         return $sanitizedHtml;
     }
 
-
     public static function getView($name)
     {
         $view = PublisherData::where('name', $name)->latest()
