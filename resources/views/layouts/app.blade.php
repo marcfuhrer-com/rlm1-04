@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'IRMD - Interactive Room Map Display') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('build/assets/app.a90aeddc.js') }}" defer></script>
@@ -29,9 +29,15 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <!--<a class="navbar-brand" href="{{ url('/') }}">
+                    {{ config('app.name', 'IRMD - Interactive Room Map Display') }}
                 </a>
+                <img src="/images/bfhLogoOhneText.png" alt="bfhLogoOhneText" href="{{ url('/') }}" height="70px">
+                <img src="/images/text_interactiveRoomMapDisplay.png" alt="text_interactiveRoomMapDisplay" href="{{ url('/') }}" height="70px">-->
+                <a href="{{ url('/') }}"><img src="/images/bfhLogoOhneText.png" alt="bfhLogoOhneText" style="height:70px;"></a>
+                <a href="{{ url('/') }}"><img src="/images/text_interactiveRoomMapDisplay.png" alt="text_interactiveRoomMapDisplay" style="height:70px;"></a>
+
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -60,7 +66,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                                    {{ Auth::user()->email }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

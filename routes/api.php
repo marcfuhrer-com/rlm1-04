@@ -1,11 +1,12 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PublisherDataController;
 use App\Http\Controllers\BuildingController;
-use App\Http\Controllers\SlideshowController;
 use App\Http\Controllers\FloorController;
 use App\Http\Controllers\ApiLoginController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
