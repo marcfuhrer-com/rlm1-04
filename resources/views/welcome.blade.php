@@ -124,6 +124,8 @@
 
 
 
+    <div class="container">
+        <br><br>
          <h1>Slideshow aktuellster Daten (automatischer Reload):</h1>
          <script type="text/javascript">
              let timer;
@@ -155,7 +157,7 @@
 
 
 
-
+<br><br><br>
             <h1>PublisherData zur Kontrolle (statisch bei Aufruf):</h1>
                 <br>
 
@@ -184,7 +186,7 @@
                     <h3>No Data...</h3>
                 @endif
 
-
+    </div>
 
 
 
