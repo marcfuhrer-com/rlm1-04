@@ -6,6 +6,7 @@ use App\Models\Building;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class SlideshowController extends Controller
 {
@@ -32,7 +33,12 @@ class SlideshowController extends Controller
      */
     public function mensaRolex()
     {
-        return null;
+        if (PublisherDataController::getView("mensa-rolex") != null || "")
+        {
+            return PublisherDataController::getView("mensa-rolex")[1];
+        } else {
+            return "<h3>No Data...</h3>";
+        }
     }
 
 
@@ -43,7 +49,12 @@ class SlideshowController extends Controller
      */
     public function indoorLocalization()
     {
-        return null;
+        if (PublisherDataController::getView("indoor-localization") != null || "")
+        {
+            return PublisherDataController::getView("indoor-localization")[1];
+        } else {
+            return "<h3>No Data...</h3>";
+        }
     }
 
 
