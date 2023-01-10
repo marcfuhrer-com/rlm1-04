@@ -59,13 +59,13 @@ To have access to usage information, simply go to https://service.p1-irm.bfh-web
 
 ## Publisher
 
+The try-it out function and current api-doc can be found here: https://active-api-doc.p1-irm.bfh-web-labs.ch
+
 Uses REST API and gets his documentation here: https://service.p1-irm.bfh-web-labs.ch/api/<version>/...
 
 Obviously depending on version, like this: https://service.p1-irm.bfh-web-labs.ch/api/v1/...
 
 The service REST API is openly accessible here: https://api-doc.p1-irm.bfh-web-labs.ch
-
-The try-it out function can be found here: https://active-api-doc.p1-irm.bfh-web-labs.ch
 
 To have access to usage information, publishers simply can go to https://service.p1-irm.bfh-web-labs.ch/usage
 
