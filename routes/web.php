@@ -25,8 +25,16 @@ Route::get('/slideshow/roomManagement', function () {
 Route::get('/slideshow/mensaRolex', function () {
     return \App\Http\Controllers\PublisherDataController::getView("mensaRolex");
 });
-Route::get('/slideshow/mensaRolex', function () {
+Route::get('/slideshow/indoorLocalization', function () {
     return \App\Http\Controllers\PublisherDataController::getView("mensaRolex");
+});
+Route::get('/usage', function () {
+    if(!Auth::user()) {
+        return view('welcome');
+    } else
+    {
+        return \App\Http\Controllers\PublisherDataController::getUsageView(Auth::user()->id);
+    }
 });
 
 Route::get('/welcome', function () {

@@ -5,13 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Accesses;
 use App\Models\Building;
 use App\Models\Floor;
+use App\Models\HasRole;
 use App\Models\PublisherData;
+use App\Models\Role;
+use App\Models\User;
 use DOMDocument;
 use HTMLPurifier;
 use HTMLPurifier_Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Testing\Fluent\Concerns\Has;
+use PhpParser\Node\Expr\Array_;
 
 
 class PublisherDataController extends Controller
@@ -20,7 +26,7 @@ class PublisherDataController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -87,7 +93,7 @@ class PublisherDataController extends Controller
         return PublisherData::create($data);
     }
 
-    public function sanitize(String $html): string
+    public function sanitize(string $html): string
     {
 
         // Create a new HTML Purifier instance
@@ -99,7 +105,7 @@ class PublisherDataController extends Controller
         //$config->set('HTML.AllowedElements', 'img, p');
         //$config->set('URI.Disable', true);
         $config->set('HTML.AllowedAttributes', 'img.src,img.alt,img.title');
-        $config->set('URI.AllowedSchemes', array (
+        $config->set('URI.AllowedSchemes', array(
             'http' => true,
             'https' => true,
             'mailto' => true,
@@ -142,7 +148,75 @@ class PublisherDataController extends Controller
     {
         $view = PublisherData::where('name', $name)->latest()
             ->value('view');
-        return  $view;
+        return $view;
     }
 
+    public static function getUsageView($userId)
+    {
+        $user = User::find($userId);
+        $role = HasRole::where('user_id', $userId)->get();
+        $roleName = DB::table('has_roles')
+            ->join('roles', 'has_roles.role_id', '=', 'roles.id')
+            ->select('roles.name')
+            ->where('has_roles.role_id', $role[0]->role_id)
+            ->get()
+            ->first();
+
+        if ($roleName->name=="Service Administrator") {
+            $data = [];
+            $i = 0;
+            $pubDataName = 'admin';
+
+            $publishedDataNames = PublisherData::get()->unique('name');
+            foreach ($publishedDataNames as $dataName) {
+                $data[$i]["name"] = $dataName->name;
+                $data[$i]["createdAt"] = PublisherData::where('name', $dataName->name)->latest()->get()[0]->created_at;
+                $data[$i]["updatedAt"]= PublisherData::where('name', $dataName->name)->latest('updated_at')->get()[0]->updated_at;
+                $data[$i]["subscribed"] = Accesses::where('publisher_data_name', $dataName->name)
+                    ->where('subscribes', 1)->get()->count();
+                $i++;
+            }
+
+
+            return view('usage', ['name' => $user->name,
+                'pubDataName' => $pubDataName,
+                'data' => $data,
+                'isAdmin' => true]);
+        } else if ($roleName->name=="Publisher") {
+            $pubDataName = DB::table('accesses')
+                ->where('user_id', '=', $userId)
+                ->where(function ($query) {
+                    $query->where('creates', '=', 1)
+                        ->orWhere('updates', '=', 1);
+                })->get();
+
+            if(count($pubDataName) != 0) {
+
+                $pubData = Accesses::where('publisher_data_name', $pubDataName[0]->publisher_data_name)
+                    ->where('subscribes', 1)->get();
+
+                return view('usage', ['name' => $user->name,
+                    'pubDataName' => $pubDataName[0]->publisher_data_name,
+                    'data' => count($pubData),
+                    'isAdmin' => false]);
+            } else {
+
+                return view('usage', ['name' => $user->name,
+                    'pubDataName' => "-",
+                    'data' => 0,
+                    'isAdmin' => false]);
+            }
+
+
+        } else {
+            $pubDataName = "";
+            $pubData = array();
+
+            return view('usage', ['name' => $user->name,
+                'pubDataName' => $pubDataName,
+                'data' => count($pubData),
+                'isAdmin' => false]);
+        }
+
+    }
 }

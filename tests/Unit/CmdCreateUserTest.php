@@ -24,7 +24,7 @@ class CmdCreateUserTest extends TestCase
             ->expectsQuestion('What is the password?', 'cmd_pass1')
             ->expectsQuestion('What is his duration?', 15)
             //->expectsOutput()
-            ->expectsQuestion('What is the users role?', 2)
+            ->expectsQuestion('What is the users role?', $role[0]->id)
             ->expectsOutput('User created!');
 
         $this->assertDatabaseHas('users', [

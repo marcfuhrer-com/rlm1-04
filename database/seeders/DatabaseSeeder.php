@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,7 +20,9 @@ class DatabaseSeeder extends Seeder
             BuildingSeeder::class,
             FloorSeeder::class,
             PublisherDataSeeder::class,
-            AccessesSeeder::class
+            AccessesSeeder::class,
+            RoleSeeder::class,
+            HasRoleSeeder::class
         ]);
     }
 }
