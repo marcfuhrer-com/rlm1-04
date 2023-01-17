@@ -157,23 +157,7 @@
     <div class="container">
         <br><br>
          <h1>Slideshow aktuellster Daten (automatischer Reload):</h1>
-         <script type="text/javascript">
-             let timer;
-             let frames = Array('/slideshow/roomManagement', '/slideShow/mensaRolex', '/slideShow/indoorLocalization');
-             let frameIndex = 0;
-             let default_duration = 5;
-             function refreshSlideshow(){
-                 if(timer)
-                     clearInterval(timer)
-                 timer = setTimeout(refreshSlideshow,default_duration*1000)
-                 var iframe = document.getElementById('slideShow');
-                 iframe.src=frames[frameIndex++];
-                 if (frameIndex === frames.length)
-                     frameIndex = 0;
-             }
 
-             refreshSlideshow();
-         </script>
 
 
 
@@ -183,13 +167,36 @@
             <div class="row">
                 <div class="col-xl">
                     <div id="slideShowWrap">
-                        <iframe id="slideShow" src="/slideshow/indoorLocalization" width="100%" height="1250sp">
+                        <iframe id="slideShow" src="/slideshow/roomManagement" width="100%" height="1250sp">
                             <p>Your browser does not support iframes.</p>
                         </iframe>
                     </div>
                 </div>
             </div>
         </div>
+
+        <script type="text/javascript">
+            let timer;
+            let frames = Array('roomManagement', 'mensaRolex', 'indoorLocalization');
+            let frameIndex = 0;
+            let default_duration = 5;
+            function refreshSlideshow(){
+                if(timer)
+                    clearInterval(timer)
+                timer = setTimeout(refreshSlideshow,default_duration*1000)
+                var iframe = document.getElementById('slideShowWrap');
+                var source = frames[frameIndex++];
+
+                iframe.innerHTML = "<iframe id=\"slideShow\" src=\"/slideshow/"
+                    + source +
+                    "\" width=\"100%\" height=\"1250sp\"><p>Your browser does not support iframes.</p></iframe>";
+
+                if (frameIndex === frames.length)
+                    frameIndex = 0;
+            }
+
+            refreshSlideshow();
+        </script>
 
 
 
