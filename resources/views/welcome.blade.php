@@ -183,7 +183,7 @@
             <div class="row">
                 <div class="col-xl">
                     <div id="slideShowWrap">
-                        <iframe id="slideShow" src="/slideshow/roomManagement" width="100%" height="1250sp">
+                        <iframe id="slideShow" src="/slideshow/indoorLocalization" width="100%" height="1250sp">
                             <p>Your browser does not support iframes.</p>
                         </iframe>
                     </div>
