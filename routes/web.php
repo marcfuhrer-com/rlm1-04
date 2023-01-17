@@ -23,10 +23,10 @@ Route::get('/slideshow/roomManagement', function () {
     return \App\Http\Controllers\PublisherDataController::getView("room-management");
 });
 Route::get('/slideshow/mensaRolex', function () {
-    return \App\Http\Controllers\PublisherDataController::getView("mensaRolex");
+    return \App\Http\Controllers\PublisherDataController::getView("mensa-rolex");
 });
 Route::get('/slideshow/indoorLocalization', function () {
-    return \App\Http\Controllers\PublisherDataController::getView("mensaRolex");
+    return \App\Http\Controllers\PublisherDataController::getView("indoor-localization");
 });
 Route::get('/usage', function () {
     if(!Auth::user()) {
