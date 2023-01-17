@@ -48,7 +48,7 @@ class DeleteUserRole extends Command
         $userId = $this->ask('For which user u want to delete a role?');
         $user = User::find($userId);
         if (!$user) {
-            $this->info('No valid user id given');
+            $this->error('No valid user id given');
 
             return 1;
         }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Role
+ * App\Models\RoleSeeder
  *
  * @property int $id
  * @property string $name
