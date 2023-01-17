@@ -24,13 +24,43 @@
         <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
 
 
-
-        <!-- Zoom for iFrame -->
+        <!-- iFrameSize -->
         <style>
-            #wrapSlideShow { width: 600px; height: 390px; padding: 0; overflow: hidden; }
-            #slideShow { width: 800px; height: 520px; border: 1px solid black; }
-            #slideShow { zoom: 0.75; -moz-transform: scale(0.75); -moz-transform-origin: 0 0; }
+
+            #slideShow {
+                width: 2000px;
+                height: 1200px;
+                border: 0px;
+            }
+
+            #slideShowWrap {
+                background-color: #ffffff;
+                padding: 0;
+                height: 100%;
+                width: 100%;
+                overflow: visible;
+            }
+
+
+
+            #slideShow {
+
+                -moz-transform: scale(1, 1);
+                -webkit-transform: scale(1, 1);
+                -o-transform: scale(1, 1);
+                -ms-transform: scale(1, 1);
+                transform: scale(1, 1);
+                -moz-transform-origin: top left;
+                -webkit-transform-origin: top left;
+                -o-transform-origin: top left;
+                -ms-transform-origin: top left;
+                transform-origin: top left;
+            }
+
         </style>
+
+
+
     </head>
     <body>
 
@@ -149,11 +179,22 @@
 
 
 
-         <div id="wrapSlideShow">
-             <iframe id="slideShow" src="/slideshow/roomManagement" style="scale(0.1)" width="600" height="400">
-                <p>Your browser does not support iframes.</p>
-             </iframe>
-         </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl">
+                    <div id="slideShowWrap">
+                        <iframe id="slideShow" src="/slideshow/roomManagement" width="100%" height="1250sp">
+                            <p>Your browser does not support iframes.</p>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
          <br>
 
 
