@@ -144,6 +144,11 @@
 
              refreshSlideshow();
          </script>
+
+
+
+
+
          <div id="wrapSlideShow">
              <iframe id="slideShow" src="/slideshow/roomManagement" style="scale(0.1)" width="600" height="400">
                 <p>Your browser does not support iframes.</p>
@@ -161,30 +166,34 @@
             <h1>PublisherData zur Kontrolle (statisch bei Aufruf):</h1>
                 <br>
 
-            <h2>Room Management</h2>
-                @if (\App\Http\Controllers\PublisherDataController::getView("room-management") != null)
-                    {!! \App\Http\Controllers\PublisherDataController::getView("room-management") !!}
-                @else
-                    <h3>No Data...</h3>
-                @endif
-
-                <br>
-
-            <h2>Mensa Rolex</h2>
-                @if (\App\Http\Controllers\PublisherDataController::getView("mensa-rolex") != null)
-                    {!! \App\Http\Controllers\PublisherDataController::getView("mensa-rolex") !!}
-                @else
-                    <h3>No Data...</h3>
-                @endif
-
-                <br>
-
-            <h2>Indoor Localization</h2>
-                @if (\App\Http\Controllers\PublisherDataController::getView("indoor-localization") != null)
-                    {!! \App\Http\Controllers\PublisherDataController::getView("indoor-localization") !!}
-                @else
-                    <h3>No Data...</h3>
-                @endif
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <h2>Room Management</h2>
+                    @if (\App\Http\Controllers\PublisherDataController::getView("room-management") != null)
+                        {!! \App\Http\Controllers\PublisherDataController::getView("room-management") !!}
+                    @else
+                        <h3>No Data...</h3>
+                    @endif
+                </div>
+                <div class="col-sm">
+                    <h2>Mensa Rolex</h2>
+                    @if (\App\Http\Controllers\PublisherDataController::getView("mensa-rolex") != null)
+                        {!! \App\Http\Controllers\PublisherDataController::getView("mensa-rolex") !!}
+                    @else
+                        <h3>No Data...</h3>
+                    @endif
+                </div>
+                <div class="col-sm">
+                    <h2>Indoor Localization</h2>
+                    @if (\App\Http\Controllers\PublisherDataController::getView("indoor-localization") != null)
+                        {!! \App\Http\Controllers\PublisherDataController::getView("indoor-localization") !!}
+                    @else
+                        <h3>No Data...</h3>
+                    @endif
+                </div>
+            </div>
+        </div>
 
     </div>
 

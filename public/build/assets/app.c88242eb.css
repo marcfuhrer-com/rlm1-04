@@ -87,6 +87,22 @@
     }
 }
 
+iframe {
+    zoom: 0.5;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+
+
+
+
+
+
+
 body {
     margin: 0;
     font-family: var(--bs-body-font-family);
