@@ -14,3 +14,7 @@ npm-debug.log
 yarn-error.log
 /php_errors.log
 /public/php_errors.log
+.env.waser
+.env.eigel
+.env.fuhrer
+.env.bfh
